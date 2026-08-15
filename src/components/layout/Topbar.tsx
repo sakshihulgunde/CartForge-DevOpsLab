@@ -3,15 +3,15 @@ import { Search, Bell, Command, Activity, ChevronRight } from 'lucide-react';
 import type { ModuleKey } from '@/types';
 
 const TITLES: Record<ModuleKey, { title: string; crumb: string }> = {
+
   dashboard: { title: 'Dashboard', crumb: 'Overview' },
   aws: { title: 'AWS Infrastructure', crumb: 'Cloud' },
   linux: { title: 'Linux Servers', crumb: 'Compute' },
   github: { title: 'GitHub Repositories', crumb: 'Source Control' },
   jenkins: { title: 'Jenkins', crumb: 'CI/CD' },
-  docker: { title: 'Docker', crumb: 'Containers' },
-  kubernetes: { title: 'Kubernetes', crumb: 'Orchestration' },
-  terraform: { title: 'Terraform', crumb: 'Infrastructure as Code' },
-  monitoring: { title: 'Monitoring', crumb: 'Observability' },
+	automation: { title: 'Automation', crumb: 'Automation Scripts' },
+	apache: { title: 'Apache', crumb: 'Web Server' },
+    monitoring: { title: 'Monitoring', crumb: 'Observability' },
   reports: { title: 'Reports', crumb: 'Analytics' },
   documentation: { title: 'Documentation', crumb: 'Docs' },
   settings: { title: 'Settings', crumb: 'Configuration' },

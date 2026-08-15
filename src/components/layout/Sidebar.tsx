@@ -7,9 +7,8 @@ import {
   Terminal,
   GitBranch,
   Workflow,
-  Box,
-  Ship,
-  Layers,
+  Server,
+  Globe,
   Activity,
   FileBarChart,
   BookOpen,
@@ -17,6 +16,7 @@ import {
   Shield,
   LogOut,
   ChevronLeft,
+  Code2,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -29,23 +29,92 @@ interface NavItem {
 }
 
 const NAV: NavItem[] = [
-  { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, group: 'overview', status: 'active' },
-  { key: 'aws', label: 'AWS', icon: Cloud, group: 'modules', status: 'next' },
-  { key: 'linux', label: 'Linux', icon: Terminal, group: 'modules', status: 'next' },
-  { key: 'github', label: 'GitHub', icon: GitBranch, group: 'modules', status: 'next' },
-  { key: 'jenkins', label: 'Jenkins', icon: Workflow, group: 'modules', status: 'active' },
-  { key: 'docker', label: 'Docker', icon: Box, group: 'modules', status: 'planned' },
-  { key: 'kubernetes', label: 'Kubernetes', icon: Ship, group: 'modules', status: 'planned' },
-  { key: 'terraform', label: 'Terraform', icon: Layers, group: 'modules', status: 'planned' },
-  { key: 'monitoring', label: 'Monitoring', icon: Activity, group: 'modules', status: 'planned' },
-  { key: 'reports', label: 'Reports', icon: FileBarChart, group: 'system', status: 'active' },
-  { key: 'documentation', label: 'Documentation', icon: BookOpen, group: 'system', status: 'active' },
-  { key: 'settings', label: 'Settings', icon: Settings, group: 'system', status: 'active' },
+  {
+    key: 'dashboard',
+    label: 'Dashboard',
+    icon: LayoutDashboard,
+    group: 'overview',
+    status: 'active',
+  },
+
+  // Module 1 - DevOps Fundamentals
+  {
+    key: 'aws',
+    label: 'AWS EC2',
+    icon: Cloud,
+    group: 'modules',
+    status: 'active',
+  },
+  {
+    key: 'linux',
+    label: 'Linux',
+    icon: Terminal,
+    group: 'modules',
+    status: 'active',
+  },
+  {
+    key: 'github',
+    label: 'Git & GitHub',
+    icon: GitBranch,
+    group: 'modules',
+    status: 'active',
+  },
+  {
+    key: 'jenkins',
+    label: 'Jenkins',
+    icon: Workflow,
+    group: 'modules',
+    status: 'active',
+  },
+  {
+    key: 'automation',
+    label: 'Bash Automation',
+    icon: Code2,
+    group: 'modules',
+    status: 'active',
+  },
+  {
+    key: 'apache',
+    label: 'Apache',
+    icon: Globe,
+    group: 'modules',
+    status: 'active',
+  },
+  {
+    key: 'monitoring',
+    label: 'Monitoring',
+    icon: Activity,
+    group: 'modules',
+    status: 'active',
+  },
+
+  // System
+  {
+    key: 'reports',
+    label: 'Reports',
+    icon: FileBarChart,
+    group: 'system',
+    status: 'active',
+  },
+  {
+    key: 'documentation',
+    label: 'Documentation',
+    icon: BookOpen,
+    group: 'system',
+    status: 'active',
+  },
+  {
+    key: 'settings',
+    label: 'Settings',
+    icon: Settings,
+    group: 'system',
+    status: 'active',
+  },
 ];
 
 const GROUP_LABELS: Record<string, string> = {
   overview: 'Overview',
-  modules: 'DevOps Modules',
+  modules: 'DevOps Fundamentals',
   system: 'System',
 };
 
@@ -73,22 +142,34 @@ export default function Sidebar({
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-primary-500 to-accent-500 shadow-lg shadow-primary-600/30">
           <Shield size={18} className="text-white" />
         </div>
+
         {!collapsed && (
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-white">DevOps Platform</p>
-            <p className="truncate text-[10px] text-ink-500">Automation Control Plane</p>
+            <p className="truncate text-sm font-semibold text-white">
+              CartForge DevOps
+            </p>
+            <p className="truncate text-[10px] text-ink-500">
+              Cloud Deployment Platform
+            </p>
           </div>
         )}
+
         <button
           onClick={() => setCollapsed((c) => !c)}
           className="ml-auto rounded-md p-1 text-ink-500 hover:bg-ink-800 hover:text-ink-300"
           aria-label="Toggle sidebar"
         >
-          <ChevronLeft size={16} className={cn('transition-transform', collapsed && 'rotate-180')} />
+          <ChevronLeft
+            size={16}
+            className={cn(
+              'transition-transform',
+              collapsed && 'rotate-180',
+            )}
+          />
         </button>
       </div>
 
-      {/* Nav */}
+      {/* Navigation */}
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         {groups.map((g) => (
           <div key={g} className="mb-5">
@@ -97,10 +178,12 @@ export default function Sidebar({
                 {GROUP_LABELS[g]}
               </p>
             )}
+
             <div className="space-y-0.5">
               {NAV.filter((n) => n.group === g).map((item) => {
                 const Icon = item.icon;
                 const active = current === item.key;
+
                 return (
                   <button
                     key={item.key}
@@ -116,16 +199,19 @@ export default function Sidebar({
                     {active && (
                       <span className="absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-r bg-primary-500" />
                     )}
+
                     <Icon size={18} className="shrink-0" />
-                    {!collapsed && <span className="truncate">{item.label}</span>}
-                    {!collapsed && item.status === 'active' && item.key !== 'dashboard' && item.group !== 'system' && (
-                      <span className="ml-auto h-1.5 w-1.5 rounded-full bg-success-400" />
+
+                    {!collapsed && (
+                      <span className="truncate">{item.label}</span>
                     )}
-                    {!collapsed && item.status === 'planned' && (
-                      <span className="ml-auto rounded bg-ink-800 px-1.5 py-0.5 text-[9px] font-medium text-ink-500">
-                        SOON
-                      </span>
-                    )}
+
+                    {!collapsed &&
+                      item.status === 'active' &&
+                      item.key !== 'dashboard' &&
+                      item.group !== 'system' && (
+                        <span className="ml-auto h-1.5 w-1.5 rounded-full bg-success-400" />
+                      )}
                   </button>
                 );
               })}
@@ -136,16 +222,27 @@ export default function Sidebar({
 
       {/* User */}
       <div className="border-t border-border p-3">
-        <div className={cn('flex items-center gap-3 rounded-lg p-2', !collapsed && 'hover:bg-ink-800/60')}>
+        <div
+          className={cn(
+            'flex items-center gap-3 rounded-lg p-2',
+            !collapsed && 'hover:bg-ink-800/60',
+          )}
+        >
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-accent-500 text-xs font-semibold text-white">
             {user?.avatar}
           </div>
+
           {!collapsed && (
             <>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-xs font-medium text-ink-200">{user?.name}</p>
-                <p className="truncate text-[10px] text-ink-500">{user?.role}</p>
+                <p className="truncate text-xs font-medium text-ink-200">
+                  {user?.name}
+                </p>
+                <p className="truncate text-[10px] text-ink-500">
+                  {user?.role}
+                </p>
               </div>
+
               <button
                 onClick={logout}
                 className="rounded-md p-1.5 text-ink-500 hover:bg-error-500/10 hover:text-error-400"

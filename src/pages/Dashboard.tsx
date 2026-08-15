@@ -50,10 +50,7 @@ export default function Dashboard({ onNavigate }: { onNavigate: (k: ModuleKey) =
             { key: 'linux' as ModuleKey, label: 'Linux', desc: '3 servers managed', icon: Server, status: 'Active', accent: 'text-success-400 bg-success-500/10' },
             { key: 'github' as ModuleKey, label: 'GitHub', desc: '4 repos connected', icon: GitBranch, status: 'Connected', accent: 'text-primary-400 bg-primary-500/10' },
             { key: 'jenkins' as ModuleKey, label: 'Jenkins', desc: `${SERVER_INFO.version}`, icon: Workflow, status: 'Running', accent: 'text-accent-400 bg-accent-500/10' },
-            { key: 'docker' as ModuleKey, label: 'Docker', desc: 'Module coming soon', icon: Rocket, status: 'Planned', accent: 'text-ink-400 bg-ink-800/60' },
-            { key: 'kubernetes' as ModuleKey, label: 'Kubernetes', desc: 'Module coming soon', icon: Activity, status: 'Planned', accent: 'text-ink-400 bg-ink-800/60' },
-            { key: 'terraform' as ModuleKey, label: 'Terraform', desc: 'Module coming soon', icon: Cloud, status: 'Planned', accent: 'text-ink-400 bg-ink-800/60' },
-            { key: 'monitoring' as ModuleKey, label: 'Monitoring', desc: 'Module coming soon', icon: Activity, status: 'Planned', accent: 'text-ink-400 bg-ink-800/60' },
+                        { key: 'monitoring' as ModuleKey, label: 'Monitoring', desc: 'Module coming soon', icon: Activity, status: 'Planned', accent: 'text-ink-400 bg-ink-800/60' },
           ].map((m) => (
             <Card key={m.key} onClick={() => onNavigate(m.key)} className="p-4">
               <div className="flex items-start justify-between">

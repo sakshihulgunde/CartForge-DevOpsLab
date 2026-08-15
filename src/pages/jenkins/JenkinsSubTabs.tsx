@@ -150,62 +150,291 @@ function AgentForm({ form, setForm }: { form: { name: string; host: string; remo
   );
 }
 
-/* ============================ WEBHOOKS ============================ */
+ /* ============================ WEBHOOKS ============================ */
 export function JenkinsWebhooks() {
   const [webhooks, setWebhooks] = useState(WEBHOOKS);
+  const [showAddWebhook, setShowAddWebhook] = useState(false);
+
+  const [form, setForm] = useState({
+    repository: '',
+    url: '',
+    events: 'push',
+  });
+
+  const addWebhook = () => {
+    if (!form.repository.trim() || !form.url.trim()) return;
+
+    const newWebhook = {
+      id: 'wh-' + Date.now(),
+      repository: form.repository,
+      url: form.url,
+      events: form.events.split(','),
+      lastTriggered: 'Never',
+      lastDeliveryStatus: 'pending' as const,
+      secretConfigured: false,
+      active: true,
+    };
+
+    setWebhooks((prev) => [...prev, newWebhook]);
+
+    setShowAddWebhook(false);
+
+    setForm({
+      repository: '',
+      url: '',
+      events: 'push',
+    });
+  };
+
+  const deleteWebhook = (id: string) => {
+    setWebhooks((prev) => prev.filter((w) => w.id !== id));
+  };
+
   return (
     <div className="space-y-5">
-      <PageHeader title="GitHub Webhooks" description="Webhook integrations triggering Jenkins pipelines on repository events." actions={<Button><Plus size={16} /> Add Webhook</Button>} />
+
+      <PageHeader
+        title="GitHub Webhooks"
+        description="Webhook integrations triggering Jenkins pipelines on repository events."
+        actions={
+          <Button onClick={() => setShowAddWebhook(true)}>
+            <Plus size={16} />
+            Add Webhook
+          </Button>
+        }
+      />
 
       <Card className="border-primary-500/20 bg-primary-500/5 p-4">
         <div className="flex items-start gap-3">
-          <GitBranch size={18} className="mt-0.5 shrink-0 text-primary-400" />
+          <GitBranch
+            size={18}
+            className="mt-0.5 shrink-0 text-primary-400"
+          />
+
           <div className="text-sm">
-            <p className="font-medium text-ink-100">GitHub Webhook Configuration</p>
+            <p className="font-medium text-ink-100">
+              GitHub Webhook Configuration
+            </p>
+
             <p className="mt-1 text-xs text-ink-400">
-              Payload URL: <code className="rounded bg-ink-900/60 px-1.5 py-0.5 text-primary-300">https://jenkins.devops-platform.io/github-webhook/</code>
-              {" · "}Content-Type: application/json{" · "}Events: push, pull_request
+              Jenkins webhook endpoint:
+            </p>
+
+            <code className="mt-1 inline-block rounded bg-ink-900/60 px-2 py-1 text-xs text-primary-300">
+              http://YOUR_JENKINS_PUBLIC_IP:8080/github-webhook/
+            </code>
+
+            <p className="mt-2 text-xs text-ink-500">
+              Recommended event: push
             </p>
           </div>
         </div>
       </Card>
 
       <div className="space-y-3">
+
         {webhooks.map((w) => (
           <Card key={w.id} className="p-5">
+
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
               <div className="flex items-center gap-4">
-                <div className={cn('flex h-10 w-10 items-center justify-center rounded-lg', w.active ? 'bg-primary-500/10 text-primary-400' : 'bg-ink-800 text-ink-500')}>
+
+                <div
+                  className={cn(
+                    'flex h-10 w-10 items-center justify-center rounded-lg',
+                    w.active
+                      ? 'bg-primary-500/10 text-primary-400'
+                      : 'bg-ink-800 text-ink-500'
+                  )}
+                >
                   <Webhook size={18} />
                 </div>
+
                 <div>
-                  <h3 className="text-sm font-semibold text-white">{w.repository}</h3>
-                  <p className="mt-0.5 truncate text-xs text-ink-400">{w.url}</p>
+
+                  <h3 className="text-sm font-semibold text-white">
+                    {w.repository}
+                  </h3>
+
+                  <p className="mt-0.5 truncate text-xs text-ink-400">
+                    {w.url}
+                  </p>
+
                   <div className="mt-1.5 flex flex-wrap gap-1">
-                    {w.events.map((e) => <Badge key={e} variant="info">{e}</Badge>)}
+
+                    {w.events.map((event) => (
+                      <Badge key={event} variant="info">
+                        {event}
+                      </Badge>
+                    ))}
+
                   </div>
+
                 </div>
+
               </div>
-              <div className="flex items-center gap-4">
+
+              <div className="flex flex-wrap items-center gap-3">
+
                 <div className="text-right">
-                  <p className="text-xs text-ink-500">Last triggered</p>
-                  <p className="text-sm font-medium text-ink-200">{w.lastTriggered}</p>
+                  <p className="text-xs text-ink-500">
+                    Last triggered
+                  </p>
+
+                  <p className="text-sm font-medium text-ink-200">
+                    {w.lastTriggered}
+                  </p>
                 </div>
-                <div>
-                  {w.lastDeliveryStatus === 'success' ? <Badge variant="success"><CheckCircle2 size={12} /> Delivered</Badge> : w.lastDeliveryStatus === 'failed' ? <Badge variant="error"><XCircle size={12} /> Failed</Badge> : <Badge variant="warning"><Clock size={12} /> Pending</Badge>}
-                </div>
-                <Badge variant={w.secretConfigured ? 'success' : 'warning'}>{w.secretConfigured ? 'Secret set' : 'No secret'}</Badge>
-                <Badge variant={w.active ? 'success' : 'neutral'}>{w.active ? 'Active' : 'Inactive'}</Badge>
-                <Button size="sm" variant="ghost"><Settings2 size={14} /></Button>
+
+                {w.lastDeliveryStatus === 'success' ? (
+                  <Badge variant="success">
+                    <CheckCircle2 size={12} />
+                    Delivered
+                  </Badge>
+                ) : w.lastDeliveryStatus === 'failed' ? (
+                  <Badge variant="error">
+                    <XCircle size={12} />
+                    Failed
+                  </Badge>
+                ) : (
+                  <Badge variant="warning">
+                    <Clock size={12} />
+                    Pending
+                  </Badge>
+                )}
+
+                <Badge
+                  variant={
+                    w.secretConfigured
+                      ? 'success'
+                      : 'warning'
+                  }
+                >
+                  {w.secretConfigured
+                    ? 'Secret set'
+                    : 'No secret'}
+                </Badge>
+
+                <Badge
+                  variant={
+                    w.active
+                      ? 'success'
+                      : 'neutral'
+                  }
+                >
+                  {w.active
+                    ? 'Active'
+                    : 'Inactive'}
+                </Badge>
+
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => deleteWebhook(w.id)}
+                >
+                  <Trash2
+                    size={14}
+                    className="text-error-400"
+                  />
+                </Button>
+
               </div>
+
             </div>
+
           </Card>
         ))}
+
       </div>
+
+      {showAddWebhook && (
+        <Modal
+          title="Add GitHub Webhook"
+          onClose={() => setShowAddWebhook(false)}
+          onSubmit={addWebhook}
+          submitLabel="Add Webhook"
+        >
+
+          <div className="space-y-4">
+
+            <FormField
+              label="GitHub Repository"
+              value={form.repository}
+              onChange={(v) =>
+                setForm({
+                  ...form,
+                  repository: v,
+                })
+              }
+              placeholder="Cartforge-jenkins"
+            />
+
+            <FormField
+              label="Jenkins Payload URL"
+              value={form.url}
+              onChange={(v) =>
+                setForm({
+                  ...form,
+                  url: v,
+                })
+              }
+              placeholder="http://YOUR-JENKINS-IP:8080/github-webhook/"
+            />
+
+            <div>
+
+              <label className="mb-1.5 block text-xs font-medium text-ink-300">
+                Events
+              </label>
+
+              <select
+                value={form.events}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    events: e.target.value,
+                  })
+                }
+                className="w-full rounded-lg border border-border bg-ink-900/60 px-3 py-2.5 text-sm text-white outline-none"
+              >
+                <option value="push">
+                  Push
+                </option>
+
+                <option value="pull_request">
+                  Pull Request
+                </option>
+
+                <option value="push,pull_request">
+                  Push + Pull Request
+                </option>
+              </select>
+
+            </div>
+
+            <div className="rounded-lg border border-primary-500/20 bg-primary-500/5 p-3 text-xs text-ink-400">
+
+              <p className="font-medium text-primary-300">
+                Important
+              </p>
+
+              <p className="mt-1">
+                This adds the webhook to the dashboard.
+                You must also configure the actual webhook
+                in GitHub under Settings → Webhooks.
+              </p>
+
+            </div>
+
+          </div>
+
+        </Modal>
+      )}
+
     </div>
   );
 }
-
 /* ============================ PLUGINS ============================ */
 export function JenkinsPlugins() {
   const [plugins, setPlugins] = useState(PLUGINS);

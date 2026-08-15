@@ -48,9 +48,8 @@ export default function Login() {
                 <span className="gradient-text">software delivery lifecycle</span> from a single pane of glass.
               </h2>
               <p className="mt-4 max-w-md text-sm leading-relaxed text-ink-400">
-                Orchestrate AWS infrastructure, Jenkins pipelines, GitHub repositories, Docker, Kubernetes, and
-                monitoring - all unified into one enterprise control plane.
-              </p>
+                Manage AWS infrastructure, Linux servers, GitHub repositories, Jenkins CI/CD,
+		Bash automation, Apache deployment, and server monitoring.              </p>
 
               <div className="mt-10 space-y-3">
                 {[
