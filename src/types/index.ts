@@ -4,6 +4,9 @@ export type ModuleKey =
   | 'linux'
   | 'github'
   | 'jenkins'
+  | 'docker'
+  | 'kubernetes'
+  | 'terraform'
   | 'automation'
   | 'apache'
   | 'monitoring'
@@ -115,7 +118,7 @@ export interface Artifact {
   type: 'jar' | 'war' | 'docker-image' | 'npm-package' | 'zip';
   checksum: string;
   createdAt: string;
-  stored: 's3' | 'nexus' | 'local';
+stored: 's3' | 'nexus' | 'local' | 'jenkins' | 'ec2';  
 }
 
 export interface DeploymentRecord {

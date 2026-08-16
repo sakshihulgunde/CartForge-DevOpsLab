@@ -10,10 +10,10 @@ interface AuthCtx {
 const Ctx = createContext<AuthCtx | null>(null);
 
 const DEMO_USER: User = {
-  name: 'Alex Morgan',
-  email: 'admin@devops-platform.io',
-  role: 'Platform Administrator',
-  avatar: 'AM',
+  name: 'Sakshi Hulgunde',
+  email: 'sakshihulgunde28@gmail.com',
+  role: 'DevOps ',
+  avatar:  'SH',
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {

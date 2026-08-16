@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import Sidebar from '@/components/layout/Sidebar';
-import Topbar from '@/components/layout/Topbar';
 import Login from '@/pages/Login';
 import Dashboard from '@/pages/Dashboard';
 import JenkinsPage from '@/pages/jenkins/JenkinsPage';
@@ -10,7 +9,6 @@ import ComingSoon, {
   SettingsPage,
 } from '@/pages/Placeholder';
 import { Reports } from '@/pages/Reports';
-import { Troubleshooting } from '@/pages/Troubleshooting';
 import { BUILDS, PIPELINES } from '@/data/jenkinsData';
 import type { ModuleKey } from '@/types';
 
@@ -50,12 +48,12 @@ function Shell() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-ink-950">
+      {/* Sidebar */}
       <Sidebar current={module} onNavigate={navigate} />
 
+      {/* Main Content */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        <Topbar current={module} />
-
-        <main className="flex-1 overflow-y-auto px-6 py-6">
+        <main className="flex-1 overflow-y-auto">
           <div className="mx-auto max-w-7xl">
 
             {/* Dashboard */}
@@ -90,7 +88,6 @@ function Shell() {
               <SettingsPage />
             )}
 
-            
             {/* Existing DevOps Modules */}
             {(module === 'aws' ||
               module === 'linux' ||

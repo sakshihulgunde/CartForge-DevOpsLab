@@ -1,129 +1,212 @@
 @import 'tailwindcss';
 
+/*
+  SIGNAL PANEL — instrument-console theme for CartForge DevOps
+  Direction: rack-mounted server panel / mission-control board.
+  Not a SaaS marketing theme — dense, hairline, status-driven.
+*/
+
 @theme {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', 'Archivo', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
 
-  /* Brand / primary - deep blue */
-  --color-primary-50: #eef4ff;
-  --color-primary-100: #d9e6ff;
-  --color-primary-200: #bcd3ff;
-  --color-primary-300: #8eb5ff;
-  --color-primary-400: #598cff;
-  --color-primary-500: #3366ff;
-  --color-primary-600: #1f47f5;
-  --color-primary-700: #1633e1;
-  --color-primary-800: #182bb6;
-  --color-primary-900: #1a2a8f;
-  --color-primary-950: #141a57;
+  /* Void — base surfaces (blue-black, not pure #000) */
+  --color-void-950: #090d13;
+  --color-void-900: #0d131b;
+  --color-void-850: #10161f;
+  --color-panel: #121924;
+  --color-panel-raised: #17202c;
+  --color-line: #212b39;
+  --color-line-bright: #2e3a4c;
 
-  /* Accent - teal */
-  --color-accent-400: #2dd4bf;
-  --color-accent-500: #14b8a6;
-  --color-accent-600: #0d9488;
+  /* Text */
+  --color-text-100: #e7ecf3;
+  --color-text-300: #aab4c2;
+  --color-text-500: #7c8898;
+  --color-text-700: #4c5666;
 
-  /* Success */
-  --color-success-400: #34d399;
-  --color-success-500: #10b981;
-  --color-success-600: #059669;
+  /* Signal — amber. Primary / brand / "live" */
+  --color-signal-300: #ffd28a;
+  --color-signal-400: #ffc164;
+  --color-signal-500: #ffb454;
+  --color-signal-600: #e89a3c;
+  --color-signal-700: #b87526;
 
-  /* Warning */
-  --color-warning-400: #fbbf24;
-  --color-warning-500: #f59e0b;
-  --color-warning-600: #d97706;
+  /* Online — phosphor green. Success / healthy */
+  --color-online-400: #8ee6a8;
+  --color-online-500: #6fd98f;
+  --color-online-600: #4fb571;
 
-  /* Error */
-  --color-error-400: #f87171;
-  --color-error-500: #ef4444;
-  --color-error-600: #dc2626;
+  /* Critical — signal red. Errors / failures */
+  --color-critical-400: #ff8a8a;
+  --color-critical-500: #ff6161;
+  --color-critical-600: #e34444;
 
-  /* Neutral / slate */
-  --color-ink-50: #f8fafc;
-  --color-ink-100: #f1f5f9;
-  --color-ink-200: #e2e8f0;
-  --color-ink-300: #cbd5e1;
-  --color-ink-400: #94a3b8;
-  --color-ink-500: #64748b;
-  --color-ink-600: #475569;
-  --color-ink-700: #334155;
-  --color-ink-800: #1e293b;
-  --color-ink-850: #172033;
-  --color-ink-900: #0f172a;
-  --color-ink-950: #080d1a;
-
-  --color-panel: #111a2e;
-  --color-panel-light: #16213a;
-  --color-border: #1f2d4a;
+  /* Scope — cyan. Info / links / secondary trace */
+  --color-scope-400: #8ee4ec;
+  --color-scope-500: #5fd4e0;
+  --color-scope-600: #38aeba;
 }
 
 @layer base {
   html {
-    font-family: var(--font-sans);
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
   }
   body {
-    background-color: var(--color-ink-950);
-    color: var(--color-ink-200);
+    background-color: var(--color-void-950);
+    color: var(--color-text-300);
+    min-height: 100vh;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--color-text-100);
+    letter-spacing: -0.01em;
+  }
+  code, .mono {
+    font-family: var(--font-mono);
   }
   * {
-    border-color: var(--color-border);
+    border-color: var(--color-line);
+  }
+  ::selection {
+    background: var(--color-signal-500);
+    color: var(--color-void-950);
   }
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: transparent;
+    background: var(--color-void-900);
   }
   ::-webkit-scrollbar-thumb {
-    background: #243352;
-    border-radius: 8px;
-    border: 2px solid transparent;
+    background: var(--color-line-bright);
+    border-radius: 0;
+    border: 2px solid var(--color-void-900);
     background-clip: padding-box;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #324663;
+    background: var(--color-text-700);
     background-clip: padding-box;
   }
 }
 
 @layer utilities {
-  .glass {
-    background: rgba(17, 26, 46, 0.7);
-    backdrop-filter: blur(12px);
+
+  /* Base panel: hairline border, square corners, flat surface */
+  .panel {
+    position: relative;
+    background: var(--color-panel);
+    border: 1px solid var(--color-line);
+    border-radius: 3px;
   }
-  .gradient-text {
-    background: linear-gradient(135deg, #598cff 0%, #2dd4bf 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+
+  /* Schematic corner brackets — the signature element.
+     Use on the one or two panels that deserve emphasis, not everywhere. */
+  .panel-bracket {
+    position: relative;
   }
-  .grid-bg {
-    background-image: linear-gradient(rgba(51, 102, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(51, 102, 255, 0.04) 1px, transparent 1px);
-    background-size: 32px 32px;
+  .panel-bracket::before,
+  .panel-bracket::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+    z-index: 2;
   }
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.15); }
+  .panel-bracket::before {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid var(--color-signal-500);
+    border-left: 2px solid var(--color-signal-500);
   }
-  .pulse-dot {
-    animation: pulse-dot 1.6s ease-in-out infinite;
+  .panel-bracket::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid var(--color-signal-500);
+    border-right: 2px solid var(--color-signal-500);
   }
-  @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
+
+  /* Left-edge status bar — replaces colorful gradient card headers */
+  .status-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    border-radius: 3px 0 0 3px;
   }
-  .shimmer {
-    background: linear-gradient(90deg, transparent 0%, rgba(89, 140, 255, 0.15) 50%, transparent 100%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
+  .status-bar-online   { background: var(--color-online-500); }
+  .status-bar-signal   { background: var(--color-signal-500); }
+  .status-bar-critical { background: var(--color-critical-500); }
+  .status-bar-scope    { background: var(--color-scope-500); }
+
+  /* Square LED indicator — not a soft glowing dot */
+  .led {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 1px;
+    background: var(--color-text-700);
+    flex-shrink: 0;
   }
-  @keyframes slide-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+  .led-online   { background: var(--color-online-500); box-shadow: 0 0 6px color-mix(in srgb, var(--color-online-500) 60%, transparent); }
+  .led-signal   { background: var(--color-signal-500); box-shadow: 0 0 6px color-mix(in srgb, var(--color-signal-500) 60%, transparent); }
+  .led-critical { background: var(--color-critical-500); box-shadow: 0 0 6px color-mix(in srgb, var(--color-critical-500) 60%, transparent); }
+
+  @keyframes led-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
   }
-  .slide-in {
-    animation: slide-in 0.3s ease-out;
+  .led-live {
+    animation: led-blink 1.8s steps(2, jump-none) infinite;
+  }
+
+  /* Console-style eyebrow label */
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-500);
+  }
+
+  /* Big instrument readout number */
+  .readout {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-text-100);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Signal trace line — one subtle draw-in, used once in the header, not everywhere */
+  @keyframes trace-draw {
+    from { stroke-dashoffset: 240; }
+    to { stroke-dashoffset: 0; }
+  }
+  .signal-line path {
+    stroke-dasharray: 240;
+    animation: trace-draw 1.4s ease-out forwards;
+  }
+
+  /* Sparse hairline grid — quiet backdrop, not a decorative full-bleed pattern */
+  .rack-grid {
+    background-image:
+      linear-gradient(var(--color-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-position: -1px -1px;
+    opacity: 0.35;
+  }
+
+  .fade-in {
+    animation: fade-in 0.25s ease-out;
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 }

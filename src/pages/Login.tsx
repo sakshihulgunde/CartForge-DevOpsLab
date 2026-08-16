@@ -1,12 +1,22 @@
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui';
-import { Shield, Lock, Mail, ArrowRight, GitBranch, Server, Cpu } from 'lucide-react';
+import {
+  GitBranch,
+  Server,
+  Play,
+  CheckCircle2,
+  Lock,
+  Mail,
+  ArrowRight,
+  Activity,
+  Terminal,
+} from 'lucide-react';
 
 export default function Login() {
   const { login } = useAuth();
-  const [email, setEmail] = useState('admin@devops-platform.io');
-  const [password, setPassword] = useState('demo1234');
+  const [email, setEmail] = useState('sakshihulgunde28@gmail.com');
+  const [password, setPassword] = useState('Sakshi_2806');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -14,149 +24,382 @@ export default function Login() {
     e.preventDefault();
     setError('');
     setLoading(true);
+
     setTimeout(() => {
       const ok = login(email, password);
-      if (!ok) setError('Invalid email or password.');
+
+      if (!ok) {
+        setError('Invalid email or password.');
+      }
+
       setLoading(false);
     }, 600);
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-ink-950">
-      {/* ambient background */}
-      <div className="pointer-events-none absolute inset-0 grid-bg opacity-60" />
-      <div className="pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full bg-primary-600/20 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-accent-500/10 blur-3xl" />
+    <div className="min-h-screen bg-slate-100 text-slate-900">
+      <div className="flex min-h-screen">
 
-      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-8">
-        <div className="grid w-full max-w-5xl gap-8 lg:grid-cols-2 lg:items-center">
-          {/* Left - branding */}
-          <div className="hidden flex-col justify-between lg:flex">
-            <div>
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 shadow-lg shadow-primary-600/30">
-                  <Shield size={24} className="text-white" />
-                </div>
-                <div>
-                  <h1 className="text-lg font-semibold text-white">DevOps Automation Platform</h1>
-                  <p className="text-xs text-ink-400">End-to-end delivery, one dashboard</p>
-                </div>
+        {/* LEFT SIDE */}
+        <div className="hidden w-1/2 bg-white lg:flex lg:flex-col lg:justify-between border-r border-slate-200">
+
+          {/* Brand */}
+          <div className="px-12 pt-10">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 shadow-sm">
+                <Terminal size={22} className="text-white" />
               </div>
 
-              <h2 className="mt-12 max-w-md text-3xl font-semibold leading-tight text-white">
-                Manage your entire{' '}
-                <span className="gradient-text">software delivery lifecycle</span> from a single pane of glass.
-              </h2>
-              <p className="mt-4 max-w-md text-sm leading-relaxed text-ink-400">
-                Manage AWS infrastructure, Linux servers, GitHub repositories, Jenkins CI/CD,
-		Bash automation, Apache deployment, and server monitoring.              </p>
-
-              <div className="mt-10 space-y-3">
-                {[
-                  { icon: GitBranch, label: 'GitHub-integrated CI/CD pipelines' },
-                  { icon: Server, label: 'AWS EC2 deployment automation' },
-                  { icon: Cpu, label: 'Jenkins agent fleet management' },
-                ].map((f) => (
-                  <div key={f.label} className="flex items-center gap-3 text-sm text-ink-300">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink-800/60 text-primary-400">
-                      <f.icon size={16} />
-                    </div>
-                    {f.label}
-                  </div>
-                ))}
+              <div>
+                <h1 className="text-lg font-bold tracking-tight text-slate-900">
+                  CartForge
+                </h1>
+                <p className="text-xs text-slate-500">
+                  DevOps Deployment Portal
+                </p>
               </div>
             </div>
 
-            <p className="mt-12 text-xs text-ink-500">
-              Enterprise-grade. JWT-secured. Built for production demonstrations.
-            </p>
-          </div>
-
-          {/* Right - login form */}
-          <div className="mx-auto w-full max-w-md">
-            <div className="rounded-2xl border border-border bg-panel/70 p-8 shadow-2xl backdrop-blur-xl">
-              <div className="mb-8 flex items-center gap-3 lg:hidden">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-accent-500">
-                  <Shield size={20} className="text-white" />
-                </div>
-                <h1 className="text-base font-semibold text-white">DevOps Automation Platform</h1>
+            {/* Main heading */}
+            <div className="mt-20 max-w-lg">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700">
+                <Activity size={13} />
+                CI/CD System Online
               </div>
 
-              <h2 className="text-xl font-semibold text-white">Sign in to your workspace</h2>
-              <p className="mt-1 text-sm text-ink-400">Enter your credentials to access the control plane.</p>
+              <h2 className="text-4xl font-bold leading-tight tracking-tight text-slate-900">
+                Build, deploy and
+                <span className="block text-blue-600">
+                  monitor with confidence.
+                </span>
+              </h2>
 
-              <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+              <p className="mt-5 max-w-md text-sm leading-6 text-slate-500">
+                Manage your CartForge application through a centralized
+                DevOps workspace connected to GitHub, Jenkins and AWS.
+              </p>
+            </div>
+
+            {/* Pipeline */}
+            <div className="mt-12 max-w-lg">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Deployment pipeline
+              </p>
+
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-5">
+
+                <div className="flex items-center justify-between">
+
+                  {/* GitHub */}
+                  <PipelineStep
+                    icon={<GitBranch size={17} />}
+                    label="GitHub"
+                    color="blue"
+                  />
+
+                  <PipelineLine />
+
+                  {/* Jenkins */}
+                  <PipelineStep
+                    icon={<Play size={17} />}
+                    label="Jenkins"
+                    color="blue"
+                  />
+
+                  <PipelineLine />
+
+                  {/* Build */}
+                  <PipelineStep
+                    icon={<Terminal size={17} />}
+                    label="Build"
+                    color="teal"
+                  />
+
+                  <PipelineLine />
+
+                  {/* Deploy */}
+                  <PipelineStep
+                    icon={<Server size={17} />}
+                    label="Deploy"
+                    color="emerald"
+                  />
+
+                </div>
+
+                <div className="mt-5 flex items-center gap-2 border-t border-slate-200 pt-4">
+                  <CheckCircle2
+                    size={15}
+                    className="text-emerald-600"
+                  />
+
+                  <span className="text-xs font-medium text-slate-600">
+                    Pipeline ready for deployment
+                  </span>
+
+                  <span className="ml-auto text-xs text-slate-400">
+                    Jenkins
+                  </span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="px-12 pb-8">
+            <div className="flex items-center gap-2 text-xs text-slate-400">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              Infrastructure operational
+            </div>
+
+            <p className="mt-2 text-xs text-slate-400">
+              CartForge DevOps Project · 2026
+            </p>
+          </div>
+        </div>
+
+        {/* RIGHT SIDE */}
+        <div className="flex flex-1 items-center justify-center px-5 py-10 sm:px-8">
+
+          <div className="w-full max-w-md">
+
+            {/* Mobile branding */}
+            <div className="mb-8 flex items-center justify-center gap-3 lg:hidden">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600">
+                <Terminal size={20} className="text-white" />
+              </div>
+
+              <div>
+                <h1 className="font-bold text-slate-900">
+                  CartForge
+                </h1>
+                <p className="text-xs text-slate-500">
+                  DevOps Deployment Portal
+                </p>
+              </div>
+            </div>
+
+            {/* Login card */}
+            <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm sm:p-8">
+
+              {/* Header */}
+              <div>
+                <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50">
+                  <Lock size={20} className="text-blue-600" />
+                </div>
+
+                <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+                  Welcome back
+                </h2>
+
+                <p className="mt-2 text-sm leading-5 text-slate-500">
+                  Sign in to manage your CartForge CI/CD environment.
+                </p>
+              </div>
+
+              {/* Form */}
+              <form onSubmit={handleSubmit} className="mt-7 space-y-5">
+
+                {/* Email */}
                 <div>
-                  <label className="mb-1.5 block text-xs font-medium text-ink-300">Email address</label>
+                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                    Email address
+                  </label>
+
                   <div className="relative">
-                    <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-500" />
+                    <Mail
+                      size={17}
+                      className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+                    />
+
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full rounded-lg border border-border bg-ink-900/60 py-2.5 pl-10 pr-3 text-sm text-white placeholder:text-ink-500 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
-                      placeholder="you@company.com"
+                      placeholder="you@example.com"
                       required
+                      className="
+                        w-full rounded-lg border border-slate-200
+                        bg-white py-2.5 pl-10 pr-3
+                        text-sm text-slate-900
+                        outline-none
+                        transition
+                        placeholder:text-slate-400
+                        hover:border-slate-300
+                        focus:border-blue-500
+                        focus:ring-4
+                        focus:ring-blue-500/10
+                      "
                     />
                   </div>
                 </div>
 
+                {/* Password */}
                 <div>
-                  <label className="mb-1.5 block text-xs font-medium text-ink-300">Password</label>
+                  <div className="mb-2 flex items-center justify-between">
+                    <label className="text-sm font-medium text-slate-700">
+                      Password
+                    </label>
+
+                    <span className="text-xs font-medium text-blue-600">
+                      Demo environment
+                    </span>
+                  </div>
+
                   <div className="relative">
-                    <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-500" />
+                    <Lock
+                      size={17}
+                      className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+                    />
+
                     <input
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full rounded-lg border border-border bg-ink-900/60 py-2.5 pl-10 pr-3 text-sm text-white placeholder:text-ink-500 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
-                      placeholder="••••••••"
+                      placeholder="Enter your password"
                       required
+                      className="
+                        w-full rounded-lg border border-slate-200
+                        bg-white py-2.5 pl-10 pr-3
+                        text-sm text-slate-900
+                        outline-none
+                        transition
+                        placeholder:text-slate-400
+                        hover:border-slate-300
+                        focus:border-blue-500
+                        focus:ring-4
+                        focus:ring-blue-500/10
+                      "
                     />
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-xs">
-                  <label className="flex items-center gap-2 text-ink-400">
-                    <input type="checkbox" defaultChecked className="rounded border-border bg-ink-900 accent-primary-500" />
+                {/* Remember */}
+                <div className="flex items-center justify-between">
+
+                  <label className="flex cursor-pointer items-center gap-2 text-xs text-slate-500">
+                    <input
+                      type="checkbox"
+                      defaultChecked
+                      className="h-4 w-4 rounded border-slate-300 accent-blue-600"
+                    />
+
                     Remember me
                   </label>
-                  <span className="cursor-pointer text-primary-400 hover:text-primary-300">Forgot password?</span>
+
+                  <span className="cursor-pointer text-xs font-medium text-blue-600 hover:text-blue-700">
+                    Forgot password?
+                  </span>
+
                 </div>
 
+                {/* Error */}
                 {error && (
-                  <div className="rounded-lg border border-error-500/30 bg-error-500/10 px-3 py-2 text-xs text-error-400">
+                  <div className="rounded-lg border border-red-200 bg-red-50 px-3.5 py-3 text-sm text-red-700">
                     {error}
                   </div>
                 )}
 
-                <Button type="submit" size="lg" className="w-full" disabled={loading}>
+                {/* Submit */}
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={loading}
+                  className="
+                    w-full
+                    bg-blue-600
+                    text-white
+                    shadow-sm
+                    hover:bg-blue-700
+                  "
+                >
                   {loading ? (
                     <>
                       <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                      Authenticating...
+                      Signing in...
                     </>
                   ) : (
                     <>
-                      Sign in
-                      <ArrowRight size={18} />
+                      Sign in to CartForge
+                      <ArrowRight size={17} />
                     </>
                   )}
                 </Button>
+
               </form>
 
-              <div className="mt-6 rounded-lg border border-border bg-ink-900/40 px-4 py-3 text-xs text-ink-400">
-                <p className="font-medium text-ink-300">Demo credentials (pre-filled):</p>
-                <p className="mt-1">admin@devops-platform.io · demo1234</p>
+              {/* Demo credentials */}
+              <div className="mt-6 rounded-lg border border-blue-100 bg-blue-50/60 px-4 py-3.5">
+
+                <div className="flex items-center gap-2">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-100">
+                    <Terminal size={13} className="text-blue-600" />
+                  </div>
+
+                  <p className="text-xs font-semibold text-blue-900">
+                    Demo credentials
+                  </p>
+                </div>
+
+                <div className="mt-2 space-y-1 font-mono text-xs text-blue-800">
+                  <p>admin@devops-platform.io</p>
+                  <p>demo1234</p>
+                </div>
+
               </div>
+
             </div>
 
-            <p className="mt-6 text-center text-xs text-ink-500">
-              Protected by JWT authentication. © 2026 DevOps Automation Platform.
-            </p>
+            {/* Bottom status */}
+            <div className="mt-5 flex items-center justify-center gap-2 text-xs text-slate-400">
+              <CheckCircle2 size={13} className="text-emerald-500" />
+              CartForge services are ready
+            </div>
+
           </div>
         </div>
+
       </div>
+    </div>
+  );
+}
+
+/* ---------------- Pipeline Components ---------------- */
+
+function PipelineStep({
+  icon,
+  label,
+  color,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  color: 'blue' | 'teal' | 'emerald';
+}) {
+  const colors = {
+    blue: 'bg-blue-50 text-blue-600 border-blue-100',
+    teal: 'bg-teal-50 text-teal-600 border-teal-100',
+    emerald: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <div
+        className={`flex h-9 w-9 items-center justify-center rounded-lg border ${colors[color]}`}
+      >
+        {icon}
+      </div>
+
+      <span className="text-[11px] font-medium text-slate-500">
+        {label}
+      </span>
+    </div>
+  );
+}
+
+function PipelineLine() {
+  return (
+    <div className="mb-5 h-px w-7 bg-slate-200 sm:w-10">
+      <div className="h-px w-1/2 bg-blue-300" />
     </div>
   );
 }

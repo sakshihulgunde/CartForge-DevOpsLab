@@ -17,6 +17,9 @@ import {
   LogOut,
   ChevronLeft,
   Code2,
+  Container,
+  Boxes,
+  Layers,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -66,6 +69,27 @@ const NAV: NavItem[] = [
     group: 'modules',
     status: 'active',
   },
+  {
+    key: 'docker',
+    label: 'Docker',
+    icon: Container,
+    group: 'modules',
+    status: 'next',
+},
+{
+  key: 'kubernetes',
+  label: 'Kubernetes',
+  icon: Boxes,
+  group: 'modules',
+  status: 'next',
+},
+{
+  key: 'terraform',
+  label: 'Terraform',
+  icon: Layers,
+  group: 'modules',
+  status: 'next',
+},
   {
     key: 'automation',
     label: 'Bash Automation',
