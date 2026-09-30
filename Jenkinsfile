@@ -1,10 +1,12 @@
+
 pipeline {
     agent any
 
     environment {
         IMAGE_NAME = 'cartforge'
-        IMAGE_TAG  = "${BUILD_NUMBER}"
+        IMAGE_TAG = "${BUILD_NUMBER}"
         KUBECONFIG = 'C:/ProgramData/Jenkins/.kube/config'
+        MINIKUBE_HOME = 'C:/ProgramData/Jenkins/.minikube'
     }
 
     stages {
@@ -12,10 +14,13 @@ pipeline {
         stage('Environment Check') {
             steps {
                 echo 'Checking Jenkins environment...'
+
                 bat 'where node'
                 bat 'node --version'
+
                 bat 'where npm'
                 bat 'npm --version'
+
                 bat 'where docker'
                 bat 'docker version'
             }
@@ -24,19 +29,32 @@ pipeline {
         stage('Kubernetes Access Check') {
             steps {
                 echo 'Checking Jenkins access to Minikube...'
+
                 bat 'whoami'
                 bat 'where kubectl'
                 bat 'kubectl version --client'
+
                 bat 'where minikube'
                 bat 'minikube version'
+
                 bat 'kubectl config current-context'
                 bat 'kubectl get nodes'
+            }
+        }
+
+        stage('Minikube Profile Check') {
+            steps {
+                echo 'Checking Minikube profile used by Jenkins...'
+
+                bat 'echo MINIKUBE_HOME=%MINIKUBE_HOME%'
+                bat 'minikube profile list'
             }
         }
 
         stage('Checkout') {
             steps {
                 echo 'Checking out CartForge source code...'
+
                 checkout scm
             }
         }
@@ -44,6 +62,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing frontend dependencies...'
+
                 bat 'npm ci'
             }
         }
@@ -51,6 +70,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 echo 'Building CartForge frontend...'
+
                 bat 'npm run build'
             }
         }
@@ -58,6 +78,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 echo 'Building CartForge Docker image...'
+
                 bat 'docker build -t %IMAGE_NAME%:%IMAGE_TAG% .'
             }
         }
@@ -65,15 +86,19 @@ pipeline {
         stage('Load Image into Minikube') {
             steps {
                 echo 'Loading CartForge Docker image into Minikube...'
-                bat 'minikube image load %IMAGE_NAME%:%IMAGE_TAG%'
+
+                bat 'minikube image load %IMAGE_NAME%:%IMAGE_TAG% -p minikube'
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
                 echo 'Deploying CartForge to Kubernetes...'
+
                 bat 'kubectl apply -f kubernetes\\cartforge.yaml'
+
                 bat 'kubectl set image deployment/cartforge cartforge=%IMAGE_NAME%:%IMAGE_TAG%'
+
                 bat 'kubectl rollout status deployment/cartforge --timeout=180s'
             }
         }
@@ -81,6 +106,7 @@ pipeline {
         stage('Kubernetes Verification') {
             steps {
                 echo 'Verifying CartForge Kubernetes deployment...'
+
                 bat 'kubectl get deployment cartforge'
                 bat 'kubectl get pods -o wide'
                 bat 'kubectl get service cartforge'
@@ -102,3 +128,4 @@ pipeline {
         }
     }
 }
+
