@@ -1,11 +1,10 @@
-﻿
-pipeline {
+﻿pipeline {
     agent any
 
     environment {
         IMAGE_NAME = 'cartforge'
         IMAGE_TAG  = "${BUILD_NUMBER}"
-        KUBECONFIG = 'C:\\ProgramData\\Jenkins\\.kube\\config'
+        KUBECONFIG = 'C:\ProgramData\Jenkins\.kube\config'
     }
 
     stages {
@@ -73,11 +72,8 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 echo 'Deploying CartForge to Kubernetes...'
-
-                bat 'kubectl apply -f kubernetes\\cartforge.yaml'
-
+                bat 'kubectl apply -f kubernetes\cartforge.yaml'
                 bat 'kubectl set image deployment/cartforge cartforge=%IMAGE_NAME%:%IMAGE_TAG%'
-
                 bat 'kubectl rollout status deployment/cartforge --timeout=180s'
             }
         }
@@ -85,7 +81,6 @@ pipeline {
         stage('Kubernetes Verification') {
             steps {
                 echo 'Verifying CartForge Kubernetes deployment...'
-
                 bat 'kubectl get deployment cartforge'
                 bat 'kubectl get pods -o wide'
                 bat 'kubectl get service cartforge'
