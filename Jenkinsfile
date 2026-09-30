@@ -1,4 +1,5 @@
-﻿pipeline {
+﻿
+pipeline {
     agent any
 
     environment {
@@ -23,7 +24,6 @@
         stage('Kubernetes Access Check') {
             steps {
                 echo 'Checking Jenkins access to Minikube...'
-
                 bat 'whoami'
                 bat 'where kubectl'
                 bat 'kubectl version --client'
@@ -43,4 +43,46 @@
             }
         }
 
-        // keep the remaining stages exactly as they are
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing frontend dependencies...'
+                bat 'npm ci'
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                echo 'Building CartForge frontend...'
+                bat 'npm run build'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                echo 'Building CartForge Docker image...'
+                bat 'docker build -t %IMAGE_NAME%:%IMAGE_TAG% .'
+            }
+        }
+
+        stage('CI Verification') {
+            steps {
+                echo 'CartForge CI pipeline completed successfully.'
+                bat 'docker images %IMAGE_NAME%'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'CartForge CI/CD pipeline completed successfully.'
+        }
+
+        failure {
+            echo 'CartForge pipeline failed. Check the Jenkins console output.'
+        }
+
+        always {
+            echo "Build number: ${BUILD_NUMBER}"
+        }
+    }
+}
