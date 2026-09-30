@@ -1,0 +1,45 @@
+{
+  "sim-i-c43742dd49ac": {
+    "instanceId": "sim-i-c43742dd49ac",
+    "containerId": "bb913d40c3b33f60c3e9a4317bedb95c6b4101dd08105345e1d47c7fea6800a5",
+    "learnerId": "sakshi",
+    "labName": "CartForge-Viva-Lab",
+    "instanceType": "t3.micro",
+    "storage": 10,
+    "image": "Ubuntu 22.04",
+    "privateIp": "10.0.0.207",
+    "state": "running",
+    "tags": {
+      "Name": "CartForge-Viva-Lab",
+      "LearnerId": "sakshi",
+      "CartForge": "true",
+      "Provider": "simulation"
+    },
+    "dockerLab": {
+      "containerId": "bb913d40c3b33f60c3e9a4317bedb95c6b4101dd08105345e1d47c7fea6800a5",
+      "labName": "cartforge-viva-lab",
+      "learnerId": "sakshi",
+      "name": "cartforge-lab-sakshi-cartforge-viva-lab-mumxmsxy",
+      "image": "cartforge-learner-lab:latest",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "StartedAt": "2026-09-29T17:10:27.754516363Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "createdAt": "2026-09-29T17:10:27.404354108Z",
+      "labels": {
+        "cartforge.environment": "learner-lab",
+        "cartforge.labName": "cartforge-viva-lab",
+        "cartforge.learnerId": "sakshi",
+        "cartforge.managedBy": "cartforge",
+        "cartforge.project": "cartforge",
+        "org.opencontainers.image.version": "24.04"
+      }
+    },
+    "createdAt": "2026-09-29T17:10:28.378Z",
+    "updatedAt": "2026-09-29T17:22:42.462Z"
+  }
+}

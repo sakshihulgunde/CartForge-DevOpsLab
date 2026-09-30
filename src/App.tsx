@@ -1,5 +1,9 @@
+
 import { useCallback, useState } from 'react';
-import { AuthProvider, useAuth } from '@/context/AuthContext';
+import {
+  AuthProvider,
+  useAuth,
+} from '@/context/AuthContext';
 
 import Sidebar from '@/components/layout/Sidebar';
 
@@ -13,6 +17,20 @@ import ApachePage from '@/pages/ApachePage';
 import BashAutomationPage from '@/pages/BashAutomationPage';
 import MonitoringPage from '@/pages/MonitoringPage';
 
+/*
+ * ============================
+ * DOCKER PAGE
+ * ============================
+ */
+import DockerPage from '@/pages/DockerPage';
+import KubernetesPage from '@/pages/KubernetesPage';
+/*
+ * ============================
+ * AWS EC2 PAGE
+ * ============================
+ */
+import AWSPage from '@/pages/AWSPage';
+
 import ComingSoon, {
   DocumentationPage,
   SettingsPage,
@@ -20,7 +38,10 @@ import ComingSoon, {
 
 import { Reports } from '@/pages/Reports';
 
-import { BUILDS, PIPELINES } from '@/data/jenkinsData';
+import {
+  BUILDS,
+  PIPELINES,
+} from '@/data/jenkinsData';
 
 import type { ModuleKey } from '@/types';
 
@@ -33,10 +54,11 @@ function Shell() {
   const [jenkinsTab, setJenkinsTab] =
     useState('overview');
 
-  const [buildTrigger, setBuildTrigger] = useState<{
-    name: string;
-    n: number;
-  } | null>(null);
+  const [buildTrigger, setBuildTrigger] =
+    useState<{
+      name: string;
+      n: number;
+    } | null>(null);
 
   const navigate = useCallback(
     (
@@ -49,7 +71,10 @@ function Shell() {
       if (k === 'jenkins' && tab) {
         setJenkinsTab(tab);
 
-        if (tab === 'execution' && build) {
+        if (
+          tab === 'execution' &&
+          build
+        ) {
           setBuildTrigger({
             name: build,
             n: Date.now(),
@@ -62,41 +87,23 @@ function Shell() {
     [],
   );
 
-  /*
-   * ------------------------------------------------
-   * LOGIN
-   * ------------------------------------------------
-   */
-
   if (!user) {
     return <Login />;
   }
 
-  /*
-   * ------------------------------------------------
-   * MAIN APPLICATION
-   * ------------------------------------------------
-   */
-
   return (
     <div className="flex h-screen overflow-hidden bg-ink-950">
-
-      {/* ================= SIDEBAR ================= */}
-
       <Sidebar
         current={module}
         onNavigate={navigate}
       />
 
-      {/* ================= MAIN AREA ================= */}
-
       <div className="flex flex-1 flex-col overflow-hidden">
-
         <main className="flex-1 overflow-y-auto">
-
           <div className="mx-auto max-w-7xl">
-
-            {/* ================= DASHBOARD ================= */}
+            {/* ============================
+                DASHBOARD
+               ============================ */}
 
             {module === 'dashboard' && (
               <Dashboard
@@ -104,7 +111,17 @@ function Shell() {
               />
             )}
 
-            {/* ================= JENKINS ================= */}
+            {/* ============================
+                AWS EC2
+               ============================ */}
+
+            {module === 'aws' && (
+              <AWSPage />
+            )}
+
+            {/* ============================
+                JENKINS
+               ============================ */}
 
             {module === 'jenkins' && (
               <JenkinsPage
@@ -114,29 +131,49 @@ function Shell() {
               />
             )}
 
-            {/* ================= APACHE ================= */}
+            {/* ============================
+                GITHUB
+               ============================ */}
 
-                            {/* Git & GitHub */}
-                {module === 'github' && (
-                  <GitHubPage />
-                )}
+            {module === 'github' && (
+              <GitHubPage />
+            )}
 
-                {/* Apache */}
-                {module === 'apache' && (
-                  <ApachePage />
-                )}
+            {/* ============================
+                APACHE
+               ============================ */}
 
-                {/* Bash Automation */}
-                {module === 'automation' && (
-                  <BashAutomationPage />
-                )}
+            {module === 'apache' && (
+              <ApachePage />
+            )}
 
-                {/* Monitoring */}
-                {module === 'monitoring' && (
-                  <MonitoringPage />
-                )}
+            {/* ============================
+                AUTOMATION
+               ============================ */}
 
-            {/* ================= REPORTS ================= */}
+            {module === 'automation' && (
+              <BashAutomationPage />
+            )}
+
+            {/* ============================
+                MONITORING
+               ============================ */}
+
+            {module === 'monitoring' && (
+              <MonitoringPage />
+            )}
+
+            {/* ============================
+                DOCKER
+               ============================ */}
+
+            {module === 'docker' && (
+              <DockerPage />
+            )}
+
+            {/* ============================
+                REPORTS
+               ============================ */}
 
             {module === 'reports' && (
               <Reports
@@ -145,44 +182,40 @@ function Shell() {
               />
             )}
 
-            {/* ================= DOCUMENTATION ================= */}
+            {/* ============================
+                DOCUMENTATION
+               ============================ */}
 
             {module === 'documentation' && (
               <DocumentationPage />
             )}
 
-            {/* ================= SETTINGS ================= */}
+            {/* ============================
+                SETTINGS
+               ============================ */}
 
             {module === 'settings' && (
               <SettingsPage />
             )}
 
-            {/* ================= OTHER DEVOPS MODULES ================= */}
+            {/* ============================
+                UPCOMING MODULES
+               ============================ */}
 
-            {(module === 'aws' ||
-              module === 'linux' ||
-              module === 'github' ||
-              module === 'docker' ||
-              module === 'kubernetes' ||
+            {(module === 'linux' ||
               module === 'terraform') && (
-              <ComingSoon module={module} />
+                <ComingSoon module={module} />
+              )}
+
+            {module === 'kubernetes' && (
+              <KubernetesPage />
             )}
-
           </div>
-
         </main>
-
       </div>
-
     </div>
   );
 }
-
-/*
- * ==================================================
- * APP ROOT
- * ==================================================
- */
 
 export default function App() {
   return (
@@ -191,3 +224,4 @@ export default function App() {
     </AuthProvider>
   );
 }
+

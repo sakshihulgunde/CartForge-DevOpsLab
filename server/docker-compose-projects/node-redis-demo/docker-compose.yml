@@ -1,0 +1,25 @@
+services:
+  app:
+    image: node:20-alpine
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+    command:
+      - node
+      - -e
+      - |
+        const http = require('http');
+        const server = http.createServer((req, res) => {
+          res.writeHead(200, {'Content-Type': 'text/plain'});
+          res.end('CartForge Node + Redis demo is running\n');
+        });
+        server.listen(3000, '0.0.0.0');
+
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
