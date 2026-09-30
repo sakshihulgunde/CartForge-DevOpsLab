@@ -8,6 +8,18 @@
 
     stages {
 
+        stage('Environment Check') {
+            steps {
+                echo 'Checking Jenkins environment...'
+                bat 'where node'
+                bat 'node --version'
+                bat 'where npm'
+                bat 'npm --version'
+                bat 'where docker'
+                bat 'docker version'
+            }
+        }
+
         stage('Checkout') {
             steps {
                 echo 'Checking out CartForge source code...'
