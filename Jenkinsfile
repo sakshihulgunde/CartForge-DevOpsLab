@@ -1,15 +1,14 @@
-
+﻿
 
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = 'cartforge'
-        IMAGE_TAG = "${BUILD_NUMBER}"
-        KUBECONFIG = 'C:/ProgramData/Jenkins/.kube/config'
-        MINIKUBE_HOME = 'C:/Users/saksh/.minikube'
-    }
-
+   environment {
+    IMAGE_NAME = 'cartforge'
+    IMAGE_TAG = "${BUILD_NUMBER}"
+    KUBECONFIG = 'C:/Users/saksh/.kube/config'
+    MINIKUBE_HOME = 'C:/Users/saksh/.minikube'
+}
     stages {
 
         stage('Environment Check') {
