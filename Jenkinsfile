@@ -1,4 +1,4 @@
-pipeline {
+﻿pipeline {
 agent any
 
 environment {
@@ -53,16 +53,16 @@ stages {
         }
     }
 
-    stage('Load Image into Minikube') {
-        steps {
-            echo "Loading ${IMAGE_NAME}:${IMAGE_TAG} into Minikube..."
+   stage('Load Image into Minikube') {
+    steps {
+        echo "Loading ${IMAGE_NAME}:${IMAGE_TAG} into Minikube..."
 
-            bat """
-            minikube image load ${IMAGE_NAME}:${IMAGE_TAG}
-            """
-        }
+        bat """
+        set MINIKUBE_HOME=C:\\Users\\saksh\\.minikube
+        minikube -p minikube image load ${IMAGE_NAME}:${IMAGE_TAG}
+        """
     }
-
+  }
     stage('Deploy to Kubernetes') {
         steps {
             echo 'Deploying CartForge to Kubernetes...'
